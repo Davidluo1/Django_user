@@ -2,9 +2,9 @@
 
 User account system
 
-database: Tableplus
+Database: Tableplus
 
-web: Django
+Web: Django
 
 Input: postman
 
