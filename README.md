@@ -1,8 +1,11 @@
 # Django_user
 
 User account system
+
 database: Tableplus
+
 web: Django
+
 Input: postman
 
 functions:
