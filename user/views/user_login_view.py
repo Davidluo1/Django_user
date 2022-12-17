@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from user.serializer.user_login_request import LoginRequest
 from user.serializer.user_otp_verify import OtpVerifyRequest
 from user.models.user import User
+from rest_framework.authtoken.models import Token
 
 
 class UserLoginView(APIView):
@@ -27,10 +28,13 @@ class UserLoginView(APIView):
                 # bool password check
                 password_match = user_instance.check_password(password)
                 if password_match:
+                    # create a token key for the user once logged in
+                    token, created = Token.objects.get_or_create(user=user_instance)
+                    #print(token)
                     return Response({"msg" : "Login successful!!!"})
                 else:
                     return Response({"msg" : "Incorrect password"}, status=400)
             else:
                 return Response({"msg" : "Account not activated"}, status=400)
         else:
-            return Response({"msg" : "Account not exist"}, status=400)
+            return Response({"msg" : "Does not match the record"}, status=400)
