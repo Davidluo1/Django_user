@@ -11,5 +11,5 @@ Input: postman
 functions:
 - sign up
 - account activatation
-- login 
+- login & create a user token
 - account deactivatation
