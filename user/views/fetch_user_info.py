@@ -11,6 +11,6 @@ class FetchUserView(APIView):
     # Identify whether the user is authenticated or not
     permission_classes = [(IsAuthenticated)]
     
-    def post(self,request):
+    def get(self,request):
         user = request.user
         return Response({"id" : user.id, "name" : user.first_name, "email" : user.email})

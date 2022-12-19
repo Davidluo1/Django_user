@@ -1,0 +1,1 @@
+from posts.serializer.add_posts_request import AddPostsRequest
