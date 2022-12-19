@@ -15,10 +15,7 @@ class GetUpdatePostView(APIView):
         """Get posts of user"""
 
         user = request.user
-        qs = UserPosts.objects.filter(user_id = user_id)
-        print(request.data)
-        print(user)
-        print(qs)
+        qs = UserPosts.objects.filter(user_id = user_id, id = post_id)
         resp = []
         # print all the posts from a user
         for data in qs:
