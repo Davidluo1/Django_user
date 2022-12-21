@@ -1,11 +1,12 @@
 from django.urls import path
-from posts.views import CreatePostView, GetUpdatePostView, CreateCommentView, CreateReactionView
+from posts.views import CreatePostView, GetUpdatePostView, CreateCommentView, CreateReactionView, CreateGerneView
 
 urlpatterns = [
     path('', CreatePostView.as_view()),
-    path('<int:post_id>', GetUpdatePostView.as_view()),
-    path('<int:post_id>/comment', CreateCommentView.as_view()),
-    path('<int:post_id>/reaction', CreateReactionView.as_view()),
+    path('post<int:post_id>', GetUpdatePostView.as_view()),
+    path('post<int:post_id>/comment', CreateCommentView.as_view()),
+    path('post<int:post_id>/reaction', CreateReactionView.as_view()),
+    path('post<int:post_id>/gerne', CreateGerneView.as_view()),
 ]
 
 # 127.0.0.1:8000/api/v1/posts/ --> Create a post, GET request

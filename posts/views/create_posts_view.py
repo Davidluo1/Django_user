@@ -17,6 +17,10 @@ class CreatePostView(APIView):
         request_data = AddPostsRequest(data = req_data)
         _ = request_data.is_valid(raise_exception = True)
         req_data = request_data.validated_data
+        list_check = UserPosts.objects.filter(title = req_data["title"], description = req_data["description"], user = user)
+        # do not post if already exist
+        if list_check:
+            return Response({"msg" : "User post existed"}, status=400)
         qs = UserPosts.objects.create(title = req_data["title"], description = req_data["description"], user = user)
         return Response({"id" : qs.id, "title" : qs.title, "description" : qs.description}, status = 201)
         

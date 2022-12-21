@@ -21,6 +21,9 @@ class CreateCommentView(APIView):
         req_data = request_data.validated_data
         post_qs = UserPosts.objects.filter(id = post_id)
         if post_qs.exists():
+            # do not post comment if already exist
+            if PostsComment.objects.filter(description =req_data["comment"], user = user ):
+                return Response({"msg" : "User comment existed"}, status=400)
             comment_qs = PostsComment.objects.create(posts = post_qs[0], description =req_data["comment"], user = user )
             return Response({"id" : comment_qs.id, "comment" : comment_qs.description}, status = 200)
         else:
@@ -39,7 +42,7 @@ class CreateCommentView(APIView):
         user = request.user
         post_qs = PostsComment.objects.filter(id = post_id, user = user)
         if post_qs.exists():
-            comment = request.data.get("description", None)
+            comment = request.data.get("comment", None)
             if comment:
                 PostsComment.objects.filter(id = post_id).update(description = comment)
             return Response({"msg" : "Information updated successfully"}, status = 200)

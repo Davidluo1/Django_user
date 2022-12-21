@@ -9,13 +9,13 @@ from django.db import transaction
 
 class CreateReactionView(APIView):
     permission_classes = [(IsAuthenticated)]
-    """Adding comments to posts"""
+    """Adding reaction to posts"""
 
     # do not modify if error occurs
     @transaction.atomic
     # post a reaction function
     def post(self, request, post_id):
-        """Add comments to db"""
+        """Add reaction to db"""
         req_data = request.data
         user = request.user
         request_data = AddReactionRequest(data = req_data)
@@ -23,8 +23,12 @@ class CreateReactionView(APIView):
         req_data = request_data.validated_data
         post_qs = UserPosts.objects.filter(id = post_id)
         if post_qs.exists():
+            # do not post reaction if already exist
+            list_check = PostsReaction.objects.filter(reaction = req_data["reaction"], user = user)
+            if list_check:
+                return Response({"msg" : "User reaction existed"}, status=400)
             # creates a user reaction
-            reaction_qs = PostsReaction.objects.create(posts = post_qs[0], reaction =req_data["reaction"], user = user )
+            reaction_qs = PostsReaction.objects.create(posts = post_qs[0], reaction =req_data["reaction"], user = user)
             return Response({"id" : reaction_qs.id, "reaction" : reaction_qs.reaction}, status = 200)
         else:
             return Response({"msg" : "Invalid posts id"}, status = 400)
@@ -35,8 +39,8 @@ class CreateReactionView(APIView):
         # specific reaction of from the user
         qs = PostsReaction.objects.filter(posts_id = post_id)
         resp = []
-        for comment in qs:
-            resp.append({"id" : comment.id, "reaction" : comment.reaction, "user" : comment.user.email})
+        for reaction in qs:
+            resp.append({"id" : reaction.id, "reaction" : reaction.reaction, "user" : reaction.user.email, "date" : reaction.created_at})
         return Response({"data" : resp}, status=200)
     
     # update reaction function
