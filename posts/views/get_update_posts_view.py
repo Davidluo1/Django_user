@@ -26,7 +26,7 @@ class GetUpdatePostView(APIView):
         """Update posts of user"""
         user = request.data
         # get the specific post from the user
-        qs = UserPosts.objects.filter(user_id = user_id, id = post_id)
+        qs = UserPosts.objects.filter(user_id = user_id, id = post_id, user = user)
         # update the title and description if the specific post exist
         if qs.exists():
             qs.update(title = user['title'], description = user['description'])
@@ -37,7 +37,7 @@ class GetUpdatePostView(APIView):
         """Delete posts of user"""
         user = request.user
         # specifc user post
-        qs = UserPosts.objects.filter(user_id = user_id, id = post_id)
+        qs = UserPosts.objects.filter(user_id = user_id, id = post_id, user = user)
         if qs.exists():
             # delete the specific post
             qs.delete()
