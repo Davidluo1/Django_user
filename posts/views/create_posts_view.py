@@ -10,14 +10,14 @@ class CreatePostView(APIView):
     permission_classes = [(IsAuthenticated)]
     """Adding posts class"""
 
-    def post(self, request, user_id):
+    def post(self, request):
         """Add posts to db"""
         req_data = request.data
-        # user = request.user
+        user = request.user
         request_data = AddPostsRequest(data = req_data)
         _ = request_data.is_valid(raise_exception = True)
         req_data = request_data.validated_data
-        qs = UserPosts.objects.create(title = req_data["title"], description = req_data["description"], user_id = user_id)
+        qs = UserPosts.objects.create(title = req_data["title"], description = req_data["description"], user = user)
         return Response({"id" : qs.id, "title" : qs.title, "description" : qs.description}, status = 201)
         
     def get(self, request):
