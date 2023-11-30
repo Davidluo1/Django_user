@@ -2,7 +2,6 @@ from rest_framework import serializers
 from user.models import User
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    
     @classmethod
     def create(self, validated_data):
         password = validated_data.pop("password")
@@ -12,5 +11,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return instance
     
     class Meta:
-        
         model = User
