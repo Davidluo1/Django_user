@@ -24,7 +24,7 @@ class UserLoginView(APIView):
             # print(user_qs[0])
             # bool check is the account activated
             if user_instance.otp_verify:
-                #print("Otp verified")
+                # print("Otp verified")
                 # bool password check
                 password_match = user_instance.check_password(password)
                 if password_match:
