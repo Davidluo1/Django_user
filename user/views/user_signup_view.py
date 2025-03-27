@@ -24,7 +24,7 @@ class UserSignUpView(APIView):
             
         # Create an user table element with password encrypted
         user_instance = UserSerializer.create(req_data)
-        # create an random otp value for the user
+        # Create a random otp value for the user
         OtpUser.objects.create(otp_value = random.randint(100000, 999999), user= user_instance)
         return Response({"msg" : "Sign up successful!!!"})
         
