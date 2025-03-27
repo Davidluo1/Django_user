@@ -28,7 +28,7 @@ class UserLoginView(APIView):
                 # Bool password check
                 password_match = user_instance.check_password(password)
                 if password_match:
-                    # create a token key for the user once logged in
+                    # Create a token key for the user once logged in
                     token, created = Token.objects.get_or_create(user=user_instance)
                     # print(token)
                     return Response({"msg" : "Login successful!!!"})
