@@ -30,7 +30,7 @@ class UserLoginView(APIView):
                 if password_match:
                     # create a token key for the user once logged in
                     token, created = Token.objects.get_or_create(user=user_instance)
-                    #print(token)
+                    # print(token)
                     return Response({"msg" : "Login successful!!!"})
                 else:
                     return Response({"msg" : "Incorrect password"}, status=400)
