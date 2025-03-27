@@ -22,7 +22,7 @@ class UserSignUpView(APIView):
         if User.objects.filter(contact_number = req_data["contact_number"]).exists():
             return Response({"msg" : "Phone already being signed up to other user account"}, status = 400)
             
-        # create an user table element with password encrypted
+        # Create an user table element with password encrypted
         user_instance = UserSerializer.create(req_data)
         # create an random otp value for the user
         OtpUser.objects.create(otp_value = random.randint(100000, 999999), user= user_instance)
